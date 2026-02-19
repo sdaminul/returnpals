@@ -72,6 +72,13 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
                                         <h6 class="dropdown-header">Welcome {{ \Illuminate\Support\Facades\Auth::user()->name ?? "User" }}!</h6>
+                                        @can('access-admin')
+                                            <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                                <i class="ri-shield-user-line align-middle me-1 fs-18"></i>
+                                                <span class="align-middle">Admin Panel</span>
+                                            </a>
+                                            <div class="dropdown-divider my-1"></div>
+                                        @endcan
                                         <a class="dropdown-item" href="{{ route('dashboard.settings') }}">
                                             <i class="ri-settings-3-line align-middle me-1 fs-18"></i>
                                             <span class="align-middle">Settings</span>
@@ -169,6 +176,28 @@
                                 <span class="nav-text">Settings</span>
                             </a>
                         </li>
+
+                        @can('access-admin')
+                            <li class="menu-title mt-2">Admin</li>
+
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                                    <span class="nav-icon">
+                                        <i class="ri-dashboard-line"></i>
+                                    </span>
+                                    <span class="nav-text">Admin Dashboard</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">
+                                    <span class="nav-icon">
+                                        <i class="ri-user-settings-line"></i>
+                                    </span>
+                                    <span class="nav-text">Manage Users</span>
+                                </a>
+                            </li>
+                        @endcan
                     </ul>
                 </div>
             </div>
