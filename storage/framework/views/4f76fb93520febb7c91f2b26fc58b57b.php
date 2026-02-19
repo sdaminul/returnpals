@@ -3,20 +3,20 @@
     <head>
         <!-- Title Meta -->
         <meta charset="utf-8" />
-        <title>@yield('title', 'Dashboard') | ReturnPal</title>
+        <title><?php echo $__env->yieldContent('title', 'Dashboard'); ?> | ReturnPal</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{{ asset('dashboard/assets/images/favicon.ico') }}" />
+        <link rel="shortcut icon" href="<?php echo e(asset('dashboard/assets/images/favicon.ico')); ?>" />
         <!-- Theme Config js -->
-        <script src="{{ asset('dashboard/assets/js/config.min.js') }}"></script>
+        <script src="<?php echo e(asset('dashboard/assets/js/config.min.js')); ?>"></script>
         <!-- Vendor css -->
-        <link href="{{ asset('dashboard/assets/css/vendor.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="<?php echo e(asset('dashboard/assets/css/vendor.min.css')); ?>" rel="stylesheet" type="text/css" />
         <!-- Icons css -->
-        <link href="{{ asset('dashboard/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="<?php echo e(asset('dashboard/assets/css/icons.min.css')); ?>" rel="stylesheet" type="text/css" />
         <!-- App css -->
-        <link href="{{ asset('dashboard/assets/css/style.css') }}" rel="stylesheet" type="text/css" />
-        @yield('styles')
+        <link href="<?php echo e(asset('dashboard/assets/css/style.css')); ?>" rel="stylesheet" type="text/css" />
+        <?php echo $__env->yieldContent('styles'); ?>
     </head>
 
     <body>
@@ -65,27 +65,27 @@
                                             <img
                                                 class="rounded-circle"
                                                 width="32"
-                                                src="{{ asset('dashboard/assets/images/users/dummy-avatar.jpg') }}"
+                                                src="<?php echo e(asset('dashboard/assets/images/users/dummy-avatar.jpg')); ?>"
                                                 alt="avatar"
                                             />
                                         </span>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end">
-                                        <h6 class="dropdown-header">Welcome {{ \Illuminate\Support\Facades\Auth::user()->name ?? "User" }}!</h6>
-                                        @can('access-admin')
-                                            <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                        <h6 class="dropdown-header">Welcome <?php echo e(\Illuminate\Support\Facades\Auth::user()->name ?? "User"); ?>!</h6>
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('access-admin')): ?>
+                                            <a class="dropdown-item" href="<?php echo e(route('admin.dashboard')); ?>">
                                                 <i class="ri-shield-user-line align-middle me-1 fs-18"></i>
                                                 <span class="align-middle">Admin Panel</span>
                                             </a>
                                             <div class="dropdown-divider my-1"></div>
-                                        @endcan
-                                        <a class="dropdown-item" href="{{ route('dashboard.settings') }}">
+                                        <?php endif; ?>
+                                        <a class="dropdown-item" href="<?php echo e(route('dashboard.settings')); ?>">
                                             <i class="ri-settings-3-line align-middle me-1 fs-18"></i>
                                             <span class="align-middle">Settings</span>
                                         </a>
                                         <div class="dropdown-divider my-1"></div>
-                                        <form method="POST" action="{{ route('logout') }}" class="px-3 py-1">
-                                            @csrf
+                                        <form method="POST" action="<?php echo e(route('logout')); ?>" class="px-3 py-1">
+                                            <?php echo csrf_field(); ?>
                                             <button type="submit" class="dropdown-item text-danger px-0 border-0 bg-transparent w-100 text-start">
                                                 <i class="ri-logout-circle-line align-middle me-1 fs-18"></i>
                                                 <span class="align-middle">Logout</span>
@@ -103,14 +103,14 @@
             <div class="main-nav">
                 <!-- Sidebar Logo -->
                 <div class="logo-box">
-                    <a href="{{ route('dashboard.overview') }}" class="logo-dark">
-                        <img src="{{ asset('dashboard/assets/images/logo-sm-dark.png') }}" class="logo-sm" alt="logo sm" />
-                        <img src="{{ asset('dashboard/assets/images/logo-dark.png') }}" class="logo-lg" alt="logo dark" />
+                    <a href="<?php echo e(route('dashboard.overview')); ?>" class="logo-dark">
+                        <img src="<?php echo e(asset('dashboard/assets/images/logo-sm-dark.png')); ?>" class="logo-sm" alt="logo sm" />
+                        <img src="<?php echo e(asset('dashboard/assets/images/logo-dark.png')); ?>" class="logo-lg" alt="logo dark" />
                     </a>
 
-                    <a href="{{ route('dashboard.overview') }}" class="logo-light">
-                        <img src="{{ asset('dashboard/assets/images/logo-sm-light.png') }}" class="logo-sm" alt="logo sm" />
-                        <img src="{{ asset('dashboard/assets/images/logo-light.png') }}" class="logo-lg" alt="logo light" />
+                    <a href="<?php echo e(route('dashboard.overview')); ?>" class="logo-light">
+                        <img src="<?php echo e(asset('dashboard/assets/images/logo-sm-light.png')); ?>" class="logo-sm" alt="logo sm" />
+                        <img src="<?php echo e(asset('dashboard/assets/images/logo-light.png')); ?>" class="logo-lg" alt="logo light" />
                     </a>
                 </div>
 
@@ -124,7 +124,7 @@
                         <li class="menu-title">Menu</li>
 
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('dashboard.overview') ? 'active' : '' }}" href="{{ route('dashboard.overview') }}">
+                            <a class="nav-link <?php echo e(request()->routeIs('dashboard.overview') ? 'active' : ''); ?>" href="<?php echo e(route('dashboard.overview')); ?>">
                                 <span class="nav-icon">
                                     <i class="ri-box-3-line"></i>
                                 </span>
@@ -133,7 +133,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('dashboard.received') ? 'active' : '' }}" href="{{ route('dashboard.received') }}">
+                            <a class="nav-link <?php echo e(request()->routeIs('dashboard.received') ? 'active' : ''); ?>" href="<?php echo e(route('dashboard.received')); ?>">
                                 <span class="nav-icon">
                                     <i class="ri-import-line"></i>
                                 </span>
@@ -142,7 +142,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('dashboard.sold-items') ? 'active' : '' }}" href="{{ route('dashboard.sold-items') }}">
+                            <a class="nav-link <?php echo e(request()->routeIs('dashboard.sold-items') ? 'active' : ''); ?>" href="<?php echo e(route('dashboard.sold-items')); ?>">
                                 <span class="nav-icon">
                                     <i class="ri-list-view"></i>
                                 </span>
@@ -151,7 +151,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('dashboard.item-pending') ? 'active' : '' }}" href="{{ route('dashboard.item-pending') }}">
+                            <a class="nav-link <?php echo e(request()->routeIs('dashboard.item-pending') ? 'active' : ''); ?>" href="<?php echo e(route('dashboard.item-pending')); ?>">
                                 <span class="nav-icon">
                                     <i class="ri-time-line"></i>
                                 </span>
@@ -160,7 +160,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('dashboard.invoices') ? 'active' : '' }}" href="{{ route('dashboard.invoices') }}">
+                            <a class="nav-link <?php echo e(request()->routeIs('dashboard.invoices') ? 'active' : ''); ?>" href="<?php echo e(route('dashboard.invoices')); ?>">
                                 <span class="nav-icon">
                                     <i class="ri-receipt-line"></i>
                                 </span>
@@ -169,7 +169,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('dashboard.settings') ? 'active' : '' }}" href="{{ route('dashboard.settings') }}">
+                            <a class="nav-link <?php echo e(request()->routeIs('dashboard.settings') ? 'active' : ''); ?>" href="<?php echo e(route('dashboard.settings')); ?>">
                                 <span class="nav-icon">
                                     <i class="ri-settings-3-line"></i>
                                 </span>
@@ -177,11 +177,11 @@
                             </a>
                         </li>
 
-                        @can('access-admin')
+                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('access-admin')): ?>
                             <li class="menu-title mt-2">Admin</li>
 
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                                <a class="nav-link <?php echo e(request()->routeIs('admin.dashboard') ? 'active' : ''); ?>" href="<?php echo e(route('admin.dashboard')); ?>">
                                     <span class="nav-icon">
                                         <i class="ri-dashboard-line"></i>
                                     </span>
@@ -190,14 +190,14 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">
+                                <a class="nav-link <?php echo e(request()->routeIs('admin.users.*') ? 'active' : ''); ?>" href="<?php echo e(route('admin.users.index')); ?>">
                                     <span class="nav-icon">
                                         <i class="ri-user-settings-line"></i>
                                     </span>
                                     <span class="nav-text">Manage Users</span>
                                 </a>
                             </li>
-                        @endcan
+                        <?php endif; ?>
                     </ul>
                 </div>
             </div>
@@ -209,23 +209,24 @@
             <div class="page-content">
                 <!-- Start Container Fluid -->
                 <div class="container-fluid">
-                    @if(session('success'))
+                    <?php if(session('success')): ?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
+        <?php echo e(session('success')); ?>
+
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-@endif
-@if($errors->any())
+<?php endif; ?>
+<?php if($errors->any()): ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <ul class="mb-0">
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
+            <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <li><?php echo e($error); ?></li>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </ul>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-@endif
-@yield('content')
+<?php endif; ?>
+<?php echo $__env->yieldContent('content'); ?>
                 </div>
 
                 <!-- ========== Footer Start ========== -->
@@ -250,11 +251,12 @@
         <!-- END Wrapper -->
 
         <!-- Vendor Javascript -->
-        <script src="{{ asset('dashboard/assets/js/vendor.js') }}"></script>
+        <script src="<?php echo e(asset('dashboard/assets/js/vendor.js')); ?>"></script>
         <!-- App Javascript -->
-        <script src="{{ asset('dashboard/assets/js/app.js') }}"></script>
+        <script src="<?php echo e(asset('dashboard/assets/js/app.js')); ?>"></script>
         <!-- Custom Js -->
-        <script src="{{ asset('dashboard/assets/js/custom.js') }}"></script>
-        @yield('scripts')
+        <script src="<?php echo e(asset('dashboard/assets/js/custom.js')); ?>"></script>
+        <?php echo $__env->yieldContent('scripts'); ?>
     </body>
 </html>
+<?php /**PATH /home/runner/work/returnpals/returnpals/resources/views/layouts/dashboard.blade.php ENDPATH**/ ?>
