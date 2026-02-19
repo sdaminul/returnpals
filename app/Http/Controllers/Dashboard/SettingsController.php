@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateSettingsRequest;
 use App\Models\UserSetting;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,12 +18,9 @@ class SettingsController extends Controller
         return view('dashboard.settings', compact('settings'));
     }
 
-    public function update(Request $request): RedirectResponse
+    public function update(UpdateSettingsRequest $request): RedirectResponse
     {
-        $data = $request->validate([
-            'vat_registered' => ['nullable', 'boolean'],
-            'discord_webhook_url' => ['nullable', 'url', 'max:255'],
-        ]);
+        $data = $request->validated();
 
         $settings = UserSetting::firstOrCreate(['user_id' => Auth::id()]);
         $settings->update([
