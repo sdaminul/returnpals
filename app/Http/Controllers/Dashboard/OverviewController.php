@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePackageRequest;
+use App\Http\Requests\UpdatePackageRequest;
 use App\Models\Package;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,17 +26,9 @@ class OverviewController extends Controller
         return view('dashboard.overview', compact('packages', 'inTransitCount'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StorePackageRequest $request): RedirectResponse
     {
-        $data = $request->validate([
-            'reference' => ['required', 'string', 'max:255'],
-            'notes' => ['nullable', 'string'],
-            'items' => ['required', 'array', 'min:1'],
-            'items.*.product_name' => ['required', 'string', 'max:255'],
-            'items.*.quantity' => ['required', 'integer', 'min:1'],
-            'items.*.condition' => ['required', 'string', 'max:50'],
-            'items.*.notes' => ['nullable', 'string'],
-        ]);
+        $data = $request->validated();
 
         DB::transaction(function () use ($data) {
             $package = Package::create([
@@ -51,19 +45,9 @@ class OverviewController extends Controller
         return back()->with('success', 'Package added successfully.');
     }
 
-    public function update(Request $request, Package $package): RedirectResponse
+    public function update(UpdatePackageRequest $request, Package $package): RedirectResponse
     {
-        abort_unless($package->user_id === Auth::id(), 403);
-
-        $data = $request->validate([
-            'reference' => ['required', 'string', 'max:255'],
-            'notes' => ['nullable', 'string'],
-            'items' => ['required', 'array', 'min:1'],
-            'items.*.product_name' => ['required', 'string', 'max:255'],
-            'items.*.quantity' => ['required', 'integer', 'min:1'],
-            'items.*.condition' => ['required', 'string', 'max:50'],
-            'items.*.notes' => ['nullable', 'string'],
-        ]);
+        $data = $request->validated();
 
         DB::transaction(function () use ($package, $data) {
             $package->update([
@@ -80,7 +64,7 @@ class OverviewController extends Controller
 
     public function destroy(Package $package): RedirectResponse
     {
-        abort_unless($package->user_id === Auth::id(), 403);
+        $this->authorize('delete', $package);
         $package->delete();
         return back()->with('success', 'Package deleted successfully.');
     }
